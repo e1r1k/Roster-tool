@@ -1,0 +1,10 @@
+{"bruker1":{"max_perweek":"5","preferredshifts":"V1,V2,V3,V4"},
+"bruker2":{"max_perweek":"5","preferredshifts":"V1,V2,V3,V4"},
+"bruker3":{"max_perweek":"5","preferredshifts":"V1,V2,V3,V8"},
+"bruker4":{"max_perweek":"5","preferredshifts":"V1,V2"},
+"bruker5":{"max_perweek":"5","preferredshifts":""},
+"bruker6":{"max_perweek":"5","preferredshifts":""},
+"bruker7":{"max_perweek":"5","preferredshifts":""},
+"bruker8":{"max_perweek":"5","preferredshifts":"V1"},
+"bruker9":{"max_perweek":"5","preferredshifts":""}
+}
