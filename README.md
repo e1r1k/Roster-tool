@@ -1,0 +1,6 @@
+Tool created as an exercise in practical application of linear programming techniques. 
+
+For actual deployment, the system would need a lot of fine-tuning with regards to weighting of preferences for example, but nonetheless interesting to see
+how linear programming can easily be applied to a wide variety of problems. Example generated roster can be found in the repository as roster.xlsx, generated according to the provided 
+sample config files hours.json, availability.json and preferences.json. Practically, this application could save a few hours of work per month even in a limited state with 
+supervised revisions, and as roster making is a repeated task this would add up over time.
