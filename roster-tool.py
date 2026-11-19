@@ -25,7 +25,7 @@ with open("hours.json") as f:
 # Preparing constants, setting up the month so that each day gets the correct shifts (weekends/weekdays)
 
 year_inp, month_inp = 2026, 11
-month = calendar.monthrange(year_inp, month_inp)  # (weekday_of_first, days_in_month)
+month = calendar.monthrange(year_inp, month_inp) 
 
 # Required shifts by weekday
 required_shifts = {
@@ -43,11 +43,11 @@ shift_hours_wdonly = {"V1":8, "V2":8, "V3":8, "V4":7, "V5":7, "V6":7, "V7":7, "V
 # Build list of all shifts
 shifts = []
 total_hours_needed = 0
-for day_nr in range(month[1]):  # days in month
+for day_nr in range(month[1]):  
     weekday = calendar.weekday(year_inp, month_inp, day_nr + 1)
     date_str = f"{year_inp}-{month_inp:02d}-{day_nr+1:02d}"
     for slot in required_shifts[weekday]:
-        shifts.append((date_str, slot))  # unique ID: (date, shift_label)
+        shifts.append((date_str, slot)) 
         total_hours_needed += shift_hours_wdonly[slot]
 
 print("Total hours needed: ", str(total_hours_needed))
@@ -130,7 +130,7 @@ for e in employees:
     for week in range(1, 6):  # up to 5 weeks in a month
         week_days = [d for d in range(1, month_days+1)
                      if calendar.weekday(year_inp, month_inp, d) in range(7)
-                     and (d-1)//7 + 1 == week]  # crude week grouping
+                     and (d-1)//7 + 1 == week]  
         model += pulp.lpSum(
             x[e][(f"{year_inp}-{month_inp:02d}-{day:02d}", s)]
             for day in week_days for (d, s) in shifts if d == f"{year_inp}-{month_inp:02d}-{day:02d}"
@@ -211,13 +211,13 @@ for row in ws.iter_rows(min_row=1, max_row=3+len(employees),
 # Narrow the date columns and widen the name column
 ws.column_dimensions["A"].width=20
 for day in range(1, month_days + 1):
-    col_letter = get_column_letter(day + 1)  # +1 because column 1 = names
-    ws.column_dimensions[col_letter].width = 4  # adjust width as needed
+    col_letter = get_column_letter(day + 1)  # +1 because column 1 is names
+    ws.column_dimensions[col_letter].width = 4  
 
 # Shade weekends
 for day in range(1, month_days+1):
     weekday = calendar.weekday(year_inp, month_inp, day)
-    if weekday >= 5:  # Saturday or Sunday
+    if weekday >= 5:  
         col = day + 1
         for row in range(2, 4+len(employees)):  # shade header + employee rows
             ws.cell(row=row, column=col).fill = PatternFill(start_color="DDDDDD",
