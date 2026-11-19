@@ -27,6 +27,8 @@ with open("hours.json") as f:
 year_inp, month_inp = 2026, 11
 month = calendar.monthrange(year_inp, month_inp) 
 
+SLACK = 0.1
+
 # Required shifts by weekday
 required_shifts = {
     0: ["V1", "V2", "V3"],
@@ -83,8 +85,8 @@ max_hours = {}
 
 for e, h in hours_data.items():
     h = int(h)
-    min_hours[e] = int(0.9 * h)   # allows 10% slack
-    max_hours[e] = int(1.1 * h)
+    min_hours[e] = int((1-SLACK) * h)   
+    max_hours[e] = int((1+SLACK) * h)
 
 shift_hours = {}
 for (d, s) in shifts:
@@ -127,7 +129,7 @@ for e in employees:
 # Ensure no employee is assigned more than 5 shifts per week
 for e in employees:
     max_perweek = int(preferences_data[e]["max_perweek"])
-    for week in range(1, 6):  # up to 5 weeks in a month
+    for week in range(1, 6):  
         week_days = [d for d in range(1, month_days+1)
                      if calendar.weekday(year_inp, month_inp, d) in range(7)
                      and (d-1)//7 + 1 == week]  
@@ -146,8 +148,8 @@ matrix = {emp: {d: "" for d in range(1, month_days+1)} for emp in employees}
 
 for e in employees:
     for (d_str, s) in shifts:
-        day = int(d_str.split("-")[2])  # extract day number from "YYYY-MM-DD"
-        if pulp.value(x[e][(d_str, s)]) == 1:  # chosen by solver
+        day = int(d_str.split("-")[2]) 
+        if pulp.value(x[e][(d_str, s)]) == 1: 
             matrix[e][day] = s
 
 # ----------------------Build excel- outpout ----------------------#
@@ -167,7 +169,7 @@ ws.cell(row=1, column=2).font = Font(bold=True, size=12)
 
 # Row 2: weekdays
 for day in range(1, month_days+1):
-    weekday = calendar.weekday(year_inp, month_inp, day)  # 0=Mon … 6=Sun
+    weekday = calendar.weekday(year_inp, month_inp, day)  
     ws.cell(row=2, column=day+1, value=weekday_labels[weekday])
 
 # Row 3: day numbers
@@ -211,7 +213,7 @@ for row in ws.iter_rows(min_row=1, max_row=3+len(employees),
 # Narrow the date columns and widen the name column
 ws.column_dimensions["A"].width=20
 for day in range(1, month_days + 1):
-    col_letter = get_column_letter(day + 1)  # +1 because column 1 is names
+    col_letter = get_column_letter(day + 1)  
     ws.column_dimensions[col_letter].width = 4  
 
 # Shade weekends
